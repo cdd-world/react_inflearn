@@ -1,47 +1,50 @@
 import { useState } from "react"
 
-function BoilingVerdict(props) {
-    if (props.celsius >= 100) {
-        return <p>물이 끓습니다.</p>
-    }
-    return <p>물이 끓지 않습니다.</p>
+function FancyBorder(props) {
+    return (
+        <div className={'FancyBorder FancyBorder-' + props.color}>
+            {props.childeren}
+        </div>
+    )
 }
 
-function Calculator(props) {
-    const [temperature, setTemperature] = useState('');
+function Dialog(props) {
+    return (
+        <FancyBorder color = "blue">
+            <h1 className="Dialog-title">
+                {props.title}
+            </h1>
+            <p className="Dialog-message">
+                {props.message}
+            </p>
+            {props.children}
+        </FancyBorder>
+    )
+}
+
+function SignUpDialog(props) {
+    const [nickname, setNickname] = useState('');
 
     const handleChange = (event) => {
-        setTemperature(event.target.value);
+        setNickname(event.target.value);
+    }
+
+    const handleSignUp = () => {
+        alert(`어서오세요, ${nickname}님 !!`);
     }
 
     return (
-        <fieldset>
-            <legend>섭씨 온도를 입력하세요 : </legend>
+        <Dialog
+            title = "화성 탐사 프로그램"
+            message = "닉네임을 입력해주세요">
             <input
-                value = {temperature}
-                onChange = {handleChange} />
-            <BoilingVerdict
-                celsius = {parseFloat(temperature)} />
-        </fieldset>
+                value={nickname}
+                onChange={handleChange} />
+                <button onClick={handleSignUp}>
+                    가입하기
+                </button>
+        </Dialog>
     )
 }
 
-const scaleNames = {
-    c: '섭씨',
-    f: '화씨',
-}
-
-function temperatureInput(props) {
-    const [temperature, setTemperature] = useState('');
-
-    const handleChange = (event) => {
-        setTemperature(event.target.value);
-    }
-
-    return (
-        <fieldset>
-            <legend>섭씨 온도를 입력하세요(단위 : {scaleNames[props.scale]}) : </legend>
-            <input value = {temperature} onChange = {handleChange} />
-        </fieldset>
-    )
-}
+export default SignUpDialog;
